@@ -53,6 +53,8 @@ github.com/stretchr/testify v1.8.3 h1:RP3t2pwF7cMEbC1dqtB6poj3niw/9gnV4Cjg5oW5gt
 github.com/stretchr/testify v1.8.3/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
 github.com/terraform-linters/tflint-plugin-sdk v0.22.0 h1:holOVJW0hjf0wkjtnYyPWRooQNp8ETUcKE86rdYkH5U=
 github.com/terraform-linters/tflint-plugin-sdk v0.22.0/go.mod h1:Cag3YJjBpHdQzI/limZR+Cj7WYPLTIE61xsCdIXoeUI=
+github.com/terraform-linters/tflint-ruleset-template v0.0.0-20250324125521-83307d31b412 h1:yhvKHUbg0MUEsCWTu4RN0yUGdLiTuoDc543AWzpa1M4=
+github.com/terraform-linters/tflint-ruleset-template v0.0.0-20250324125521-83307d31b412/go.mod h1:2Szobrkn1WOSw2YGgSEHCK3yv0ahSJGeU/wxuOdcNsw=
 github.com/vmihailenco/msgpack/v5 v5.3.5 h1:5gO0H1iULLWGhs2H5tbAHIZTV8/cYafcFOr9znI5mJU=
 github.com/vmihailenco/msgpack/v5 v5.3.5/go.mod h1:7xyJ9e+0+9SaZT0Wt1RGleJXzli6Q/V5KbhBonMG9jc=
 github.com/vmihailenco/tagparser/v2 v2.0.0 h1:y09buUbR+b5aycVFQs/g70pqKVZNBmxwAhO7/IwNM9g=
