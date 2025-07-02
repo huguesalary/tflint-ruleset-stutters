@@ -1,10 +1,11 @@
-module github.com/terraform-linters/tflint-ruleset-template
+module github.com/huguesalary/tflint-ruleset-stutters
 
 go 1.24.0
 
 require (
 	github.com/hashicorp/hcl/v2 v2.23.0
 	github.com/terraform-linters/tflint-plugin-sdk v0.22.0
+	github.com/terraform-linters/tflint-ruleset-template v0.0.0-20250324125521-83307d31b412
 )
 
 require (
