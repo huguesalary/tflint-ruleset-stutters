@@ -45,6 +45,7 @@ func (r *TerraformNoStutterRule) Check(runner tflint.Runner) error {
 	body, err := runner.GetModuleContent(&hclext.BodySchema{
 		Blocks: []hclext.BlockSchema{
 			{Type: "resource", LabelNames: []string{"type", "name"}, Body: &hclext.BodySchema{}},
+			{Type: "data", LabelNames: []string{"type", "name"}, Body: &hclext.BodySchema{}},
 		},
 	}, nil)
 
