@@ -41,7 +41,7 @@ func (r *TerraformNoStutterRule) Link() string {
 // Check checks whether ...
 func (r *TerraformNoStutterRule) Check(runner tflint.Runner) error {
 
-	// Find all "resource" blocks
+	// Find all "resource" and "data" blocks
 	body, err := runner.GetModuleContent(&hclext.BodySchema{
 		Blocks: []hclext.BlockSchema{
 			{Type: "resource", LabelNames: []string{"type", "name"}, Body: &hclext.BodySchema{}},
@@ -53,28 +53,31 @@ func (r *TerraformNoStutterRule) Check(runner tflint.Runner) error {
 		return err
 	}
 
-	// For each block, find the longest common suffix between the resource "type" (e.g. "gogle_storage_bucket") and the resource "name"
-	for _, resource := range body.Blocks {
+	// For each block, find the longest common suffix between the block "type" (e.g. "gogle_storage_bucket") and the resource "name"
+	for _, block := range body.Blocks {
 
-		// resource.Labels[0] contains the "type"
-		// resource.Labels[1] contains the "name"
-		common := findLongestCommonSuffix(resource.Labels[0], resource.Labels[1])
+		// block.Labels[0] contains the "type"
+		// block.Labels[1] contains the "name"
+		blockType := block.Labels[0]
+		blockName := block.Labels[1]
+
+		common := findLongestCommonSuffix(blockType, blockName)
 
 		// We found common substring between the type and name
 		if common != "" {
 
-			message := fmt.Sprintf("Resource type (\"%s\") is repeated in resource name (\"%s\") (specifically \"%s\").", resource.Labels[0], resource.Labels[1], common)
+			message := fmt.Sprintf("Resource type (\"%s\") is repeated in resource name (\"%s\") (specifically \"%s\").", blockType, blockName, common)
 
 			// Compute a recommended name for the resource.
 			// It is just the current resource name minus the common prefix we found
-			recommendedName, _ := strings.CutSuffix(resource.Labels[1], fmt.Sprintf("_%s", common))
+			recommendedName, _ := strings.CutSuffix(blockName, fmt.Sprintf("_%s", common))
 
 			// If the recommended name is the same as the current resource name, we can't automatically fix the issue. We only emit an error.
-			if recommendedName == resource.Labels[1] {
+			if recommendedName == blockName {
 				err := runner.EmitIssue(
 					r,
 					message,
-					resource.DefRange,
+					block.DefRange,
 				)
 
 				if err != nil {
@@ -88,9 +91,9 @@ func (r *TerraformNoStutterRule) Check(runner tflint.Runner) error {
 				err := runner.EmitIssueWithFix(
 					r,
 					message,
-					resource.DefRange,
+					block.DefRange,
 					func(f tflint.Fixer) error {
-						err := f.ReplaceText(resource.LabelRanges[1], `"`, fmt.Sprintf(`"%s"`, recommendedName))
+						err := f.ReplaceText(block.LabelRanges[1], `"`, fmt.Sprintf(`"%s"`, recommendedName))
 						if err != nil {
 							return err
 						}
